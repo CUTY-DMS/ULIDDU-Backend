@@ -1,0 +1,69 @@
+package com.project.todolist.controller;
+
+import com.project.todolist.dto.request.CreateTodoRequest;
+import com.project.todolist.dto.request.ModifyTodoRequest;
+import com.project.todolist.dto.response.CreateTodoResponse;
+import com.project.todolist.dto.response.FindTodoInfoResponse;
+import com.project.todolist.dto.response.FindTodoResponse;
+import com.project.todolist.dto.response.ModifyTodoResponse;
+import com.project.todolist.dto.response.ToggleTodoCompleteResponse;
+import com.project.todolist.service.TodoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+public class TodoController {
+
+    private final TodoService todoService;
+
+    @PostMapping("/todo")
+    public CreateTodoResponse createTodo(@RequestBody @Valid CreateTodoRequest request){
+        return todoService.createTodo(request);
+    }
+
+    @PutMapping("/todo/{id}")
+    public ToggleTodoCompleteResponse completeTodo(@PathVariable Long id){
+        return todoService.completeTodo(id);
+    }
+
+    @PatchMapping("/todo/{id}")
+    public ModifyTodoResponse modifyTodo(@PathVariable Long id, @RequestBody @Valid ModifyTodoRequest request){
+        return todoService.modifyTodo(id, request);
+    }
+
+    @DeleteMapping("/todo/{id}")
+    public void deleteTodo(@PathVariable Long id){
+        todoService.deleteTodo(id);
+    }
+
+    @GetMapping("/todo/list/all")
+    public List<FindTodoResponse> findAllTodo() {
+        return todoService.findAllTodo();
+    }
+
+    @GetMapping("/todo/list/user/{id}")
+    public List<FindTodoResponse> findUserTodo(@PathVariable Long id) {
+        return todoService.findUserTodo(id);
+    }
+
+    @GetMapping("/todo/list")
+    public List<FindTodoResponse> findMyTodo() {
+        return todoService.findMyTodo();
+    }
+
+    @GetMapping("/todo/{id}")
+    public FindTodoInfoResponse findTodo(@PathVariable Long id) {
+        return todoService.findTodoInfo(id);
+    }
+}
