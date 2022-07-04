@@ -7,13 +7,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Getter
+@Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FindUserInfoResponse {
+
     private String name;
+
     private String userId;
+
     private int age;
 
     public static FindUserInfoResponse of(User user) {
