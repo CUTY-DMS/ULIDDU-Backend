@@ -18,8 +18,6 @@ public class LikeFacade {
 
     private final LikeRepository likeRepository;
 
-    private final UserRepository userRepository;
-
     public Boolean isLiked(User user, Todo todo) {
 
         Optional<Like> like = likeRepository.findByUserAndTodo(user,todo);
