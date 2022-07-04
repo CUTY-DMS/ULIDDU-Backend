@@ -14,12 +14,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
+
     private String message;
+
     private Integer status;
+
     private LocalDateTime timestamp;
+
     private String description;
 
     public static ErrorResponse of(ErrorCode errorCode, String description) {
+
         return ErrorResponse.builder()
                 .message(errorCode.getMessage())
                 .status(errorCode.getStatusCode())
