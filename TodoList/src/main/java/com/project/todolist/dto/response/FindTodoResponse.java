@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,6 +20,8 @@ public class FindTodoResponse {
 
     private String title;
 
+    private LocalDate todoDate;
+
     private Boolean iscompleted;
 
     public static FindTodoResponse of(Todo todo) {
@@ -26,6 +29,7 @@ public class FindTodoResponse {
                 .builder()
                 .id(todo.getId())
                 .title(todo.getTitle())
+                .todoDate(todo.getTodoDate())
                 .iscompleted(todo.getIsCompleted())
                 .build();
     }

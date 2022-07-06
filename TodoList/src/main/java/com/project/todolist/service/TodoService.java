@@ -16,8 +16,10 @@ import com.project.todolist.exception.TodoNotFoundException;
 import com.project.todolist.facade.LikeFacade;
 import com.project.todolist.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,9 +58,9 @@ public class TodoService {
 
         writerCheck(user, todo);
 
-        if(todo.getIsCompleted()){
+        if (todo.getIsCompleted()) {
             todo.setIsNotCompleted();
-        }else{
+        } else {
             todo.setIsCompleted();
         }
 
@@ -96,7 +98,7 @@ public class TodoService {
         todoRepository.save(todo);
     }
 
-    public FindTodoInfoResponse findTodoInfo(FindTodoListRequest request, Long id) {
+    public FindTodoInfoResponse findTodoInfo(Long id) {
 
         User user = userFacade.currentUser();
 
@@ -108,17 +110,14 @@ public class TodoService {
         return FindTodoInfoResponse.of(todo, isLiked);
     }
 
-    public List<FindTodoResponse> findAllTodo() {
+    public List<FindTodoResponse> findUserTodo(Long id, FindTodoListRequest request) {
 
-        return todoRepository.findAllBy()
-                .stream()
-                .map(FindTodoResponse::of)
-                .collect(Collectors.toList());
-    }
+        LocalDate startDate = request.getTodoYearMonth().atDay(1);
+        LocalDate endDate = request.getTodoYearMonth().atEndOfMonth();
 
-    public List<FindTodoResponse> findUserTodo(Long id) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "todoDate");
 
-        return todoRepository.findByWriter_Id(id)
+        return todoRepository.findByWriter_IdAndTodoDateBetween(id, startDate, endDate, sort)
                 .stream()
                 .map(FindTodoResponse::of)
                 .collect(Collectors.toList());
@@ -128,7 +127,12 @@ public class TodoService {
 
         User user = userFacade.currentUser();
 
-        return todoRepository.findByWriter_Id(user.getId())
+        LocalDate startDate = request.getTodoYearMonth().atDay(1);
+        LocalDate endDate = request.getTodoYearMonth().atEndOfMonth();
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "todoDate");
+
+        return todoRepository.findByWriter_IdAndTodoDateBetween(user.getId(), startDate, endDate, sort)
                 .stream()
                 .map(FindTodoResponse::of)
                 .collect(Collectors.toList());

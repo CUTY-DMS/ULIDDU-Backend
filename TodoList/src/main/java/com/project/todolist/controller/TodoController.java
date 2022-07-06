@@ -49,8 +49,8 @@ public class TodoController {
     }
 
     @GetMapping("/todo/list/user/{id}")
-    public List<FindTodoResponse> findUserTodo(@PathVariable Long id) {
-        return todoService.findUserTodo(id);
+    public List<FindTodoResponse> findUserTodo(@PathVariable Long id, @RequestBody @Valid FindTodoListRequest request) {
+        return todoService.findUserTodo(id, request);
     }
 
     @GetMapping("/todo/list")
@@ -59,7 +59,7 @@ public class TodoController {
     }
 
     @GetMapping("/todo/{id}")
-    public FindTodoInfoResponse findTodo(@RequestBody @Valid FindTodoListRequest request, @PathVariable Long id) {
-        return todoService.findTodoInfo(request, id);
+    public FindTodoInfoResponse findTodo(@PathVariable Long id) {
+        return todoService.findTodoInfo(id);
     }
 }
