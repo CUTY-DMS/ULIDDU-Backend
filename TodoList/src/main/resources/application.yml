@@ -2,15 +2,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-<<<<<<< Updated upstream
     url: ${URL}
     username: ${USERNAME}
     password: ${PASSWORD}
-=======
-    url: jdbc:mysql://todolistdatabase.c9brcozkis8y.ap-northeast-2.rds.amazonaws.com:3306/blog
-    username: root
-    password: Mydptmzbdpf!1
->>>>>>> Stashed changes
   jackson:
     property-naming-strategy: KEBAB_CASE
   jpa:
@@ -20,13 +14,8 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     defer-datasource-initialization: true
   redis:
-<<<<<<< Updated upstream
     port: ${REDIS-PORT}
     host: ${REDIS-HOST}
-=======
-    port: 6379
-    host: todoredis.maevjc.ng.0001.apn2.cache.amazonaws.com
->>>>>>> Stashed changes
   mvc:
     throw-exception-if-no-handler-found: true
     dispatch-options-request: false
@@ -35,16 +24,8 @@ spring:
       add-mappings: false
 
 jwt:
-<<<<<<< Updated upstream
-  header: ${HEADER}
-  prefix : ${PREFIX}
+  header: ${JWT-HEADER}
+  prefix: ${JWT-PREFIX}
   secret: ${JWT-SECRET}
-  access:  ${TOKEN-EXP}
-  refresh:  ${REFRESH-EXP}
-=======
-  header: Authorization
-  prefix : Bearer
-  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-  access:  600
-  refresh: 1209600
->>>>>>> Stashed changes
+  access: ${JWT-ACCESS}
+  refresh: ${JWT-REFRESH}
