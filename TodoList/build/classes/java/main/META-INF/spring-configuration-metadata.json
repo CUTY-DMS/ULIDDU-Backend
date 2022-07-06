@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.project.todolist.security.jwt.JwtProperties",
+      "sourceType": "com.project.todolist.security.jwt.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.access",
+      "type": "java.lang.Long",
+      "sourceType": "com.project.todolist.security.jwt.JwtProperties"
+    },
+    {
+      "name": "jwt.header",
+      "type": "java.lang.String",
+      "sourceType": "com.project.todolist.security.jwt.JwtProperties"
+    },
+    {
+      "name": "jwt.prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.project.todolist.security.jwt.JwtProperties"
+    },
+    {
+      "name": "jwt.refresh",
+      "type": "java.lang.Long",
+      "sourceType": "com.project.todolist.security.jwt.JwtProperties"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.project.todolist.security.jwt.JwtProperties"
+    }
+  ],
+  "hints": []
+}

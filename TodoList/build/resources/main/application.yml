@@ -1,0 +1,31 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://todolistdatabase.c9brcozkis8y.ap-northeast-2.rds.amazonaws.com:3306/blog
+    username: root
+    password: Mydptmzbdpf!1
+  jackson:
+    property-naming-strategy: KEBAB_CASE
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    defer-datasource-initialization: true
+  redis:
+    port: 6379
+    host: todoredis.maevjc.ng.0001.apn2.cache.amazonaws.com
+  mvc:
+    throw-exception-if-no-handler-found: true
+    dispatch-options-request: false
+  web:
+    resources:
+      add-mappings: false
+
+jwt:
+  header: Authorization
+  prefix: Bearer
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  access: 600
+  refresh: 1209600
