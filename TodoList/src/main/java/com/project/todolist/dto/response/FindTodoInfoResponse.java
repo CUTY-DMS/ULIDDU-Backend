@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -20,9 +21,11 @@ public class FindTodoInfoResponse {
 
     private String title;
 
-    private String createdDate;
-
     private String writer;
+
+    private LocalDate todoDate;
+
+    private String completedDate;
 
     private Boolean iscompleted;
 
@@ -35,9 +38,10 @@ public class FindTodoInfoResponse {
                 .builder()
                 .id(todo.getId())
                 .title(todo.getTitle())
-                .createdDate(todo.getCreatedDate()
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .todoDate(todo.getTodoDate())
                 .writer(todo.getWriter().getName())
+                .completedDate(todo.getCompletedDate()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .iscompleted(todo.getIsCompleted())
                 .isliked(isLiked)
                 .likeCount(todo.getLikes().size())

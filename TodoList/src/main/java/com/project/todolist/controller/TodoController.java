@@ -1,6 +1,7 @@
 package com.project.todolist.controller;
 
 import com.project.todolist.dto.request.CreateTodoRequest;
+import com.project.todolist.dto.request.FindTodoListRequest;
 import com.project.todolist.dto.request.ModifyTodoRequest;
 import com.project.todolist.dto.response.CreateTodoResponse;
 import com.project.todolist.dto.response.FindTodoInfoResponse;
@@ -47,23 +48,18 @@ public class TodoController {
         todoService.deleteTodo(id);
     }
 
-    @GetMapping("/todo/list/all")
-    public List<FindTodoResponse> findAllTodo() {
-        return todoService.findAllTodo();
-    }
-
     @GetMapping("/todo/list/user/{id}")
     public List<FindTodoResponse> findUserTodo(@PathVariable Long id) {
         return todoService.findUserTodo(id);
     }
 
     @GetMapping("/todo/list")
-    public List<FindTodoResponse> findMyTodo() {
-        return todoService.findMyTodo();
+    public List<FindTodoResponse> findMyTodo(@RequestBody @Valid FindTodoListRequest request) {
+        return todoService.findMyTodo(request);
     }
 
     @GetMapping("/todo/{id}")
-    public FindTodoInfoResponse findTodo(@PathVariable Long id) {
-        return todoService.findTodoInfo(id);
+    public FindTodoInfoResponse findTodo(@RequestBody @Valid FindTodoListRequest request, @PathVariable Long id) {
+        return todoService.findTodoInfo(request, id);
     }
 }
