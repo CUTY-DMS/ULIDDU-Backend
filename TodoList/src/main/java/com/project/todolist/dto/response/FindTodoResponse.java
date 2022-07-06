@@ -19,10 +19,6 @@ public class FindTodoResponse {
 
     private String title;
 
-    private String createdDate;
-
-    private String writer;
-
     private Boolean iscompleted;
 
     public static FindTodoResponse of(Todo todo) {
@@ -30,9 +26,6 @@ public class FindTodoResponse {
                 .builder()
                 .id(todo.getId())
                 .title(todo.getTitle())
-                .createdDate(todo.getCreatedDate()
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .writer(todo.getWriter().getName())
                 .iscompleted(todo.getIsCompleted())
                 .build();
     }

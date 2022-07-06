@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +43,12 @@ public class Todo {
 
     private String content;
 
-    private LocalDateTime createdDate;
 
-    @Setter
+    private LocalDate todoDate;
+
+    @Nullable
+    private LocalDateTime completedDate;
+
     private Boolean isCompleted;
 
     @OneToMany(mappedBy = "todo")
@@ -53,13 +59,13 @@ public class Todo {
         this.content = content;
     }
 
-    public void addLike(User user) {
+    public void setIsCompleted() {
+        this.completedDate = LocalDateTime.now();
+        this.isCompleted = true;
+    }
 
-        Like like = Like.builder()
-                .user(user)
-                .todo(this)
-                .build();
-
-        likes.add(like);
+    public void setIsNotCompleted() {
+        this.completedDate = null;
+        this.isCompleted = false;
     }
 }

@@ -1,6 +1,7 @@
 package com.project.todolist.service;
 
 import com.project.todolist.dto.request.CreateTodoRequest;
+import com.project.todolist.dto.request.FindTodoListRequest;
 import com.project.todolist.dto.request.ModifyTodoRequest;
 import com.project.todolist.dto.response.CreateTodoResponse;
 import com.project.todolist.dto.response.ModifyTodoResponse;
@@ -10,7 +11,6 @@ import com.project.todolist.dto.response.FindTodoResponse;
 import com.project.todolist.entity.todo.Todo;
 import com.project.todolist.entity.todo.TodoRepository;
 import com.project.todolist.entity.user.User;
-import com.project.todolist.entity.user.UserRepository;
 import com.project.todolist.exception.ForbiddenException;
 import com.project.todolist.exception.TodoNotFoundException;
 import com.project.todolist.facade.LikeFacade;
@@ -18,7 +18,6 @@ import com.project.todolist.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,7 @@ public class TodoService {
                 .builder()
                 .writer(user)
                 .title(request.getTitle())
-                .createdDate(LocalDateTime.now())
+                .todoDate(request.getTodoDate())
                 .content(request.getContent())
                 .isCompleted(false)
                 .build();
@@ -57,7 +56,12 @@ public class TodoService {
 
         writerCheck(user, todo);
 
-        todo.setIsCompleted(!todo.getIsCompleted());
+        if(todo.getIsCompleted()){
+            todo.setIsNotCompleted();
+        }else{
+            todo.setIsCompleted();
+        }
+
         todoRepository.save(todo);
         return new ToggleTodoCompleteResponse(todo.getIsCompleted());
     }
@@ -92,7 +96,7 @@ public class TodoService {
         todoRepository.save(todo);
     }
 
-    public FindTodoInfoResponse findTodoInfo(Long id) {
+    public FindTodoInfoResponse findTodoInfo(FindTodoListRequest request, Long id) {
 
         User user = userFacade.currentUser();
 
@@ -120,7 +124,7 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-    public List<FindTodoResponse> findMyTodo() {
+    public List<FindTodoResponse> findMyTodo(FindTodoListRequest request) {
 
         User user = userFacade.currentUser();
 
