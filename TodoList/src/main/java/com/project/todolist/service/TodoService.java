@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -115,12 +116,16 @@ public class TodoService {
         LocalDate startDate = request.getTodoYearMonth().atDay(1);
         LocalDate endDate = request.getTodoYearMonth().atEndOfMonth();
 
-        Sort sort = Sort.by(Sort.Direction.ASC, "todoDate");
+        Sort sort = sortTodo();
 
-        return todoRepository.findByWriter_IdAndTodoDateBetween(id, startDate, endDate, sort)
-                .stream()
-                .map(FindTodoResponse::of)
-                .collect(Collectors.toList());
+        List<Todo> todos = new ArrayList<>(
+                todoRepository.findByWriter_IdAndTodoDateBetween(id, startDate, endDate, sort));
+
+        return todos.stream()
+                .map(todo-> {
+                    Boolean isLiked = likeFacade.isLiked(todo.getWriter(), todo);
+                    return FindTodoResponse.of(todo,isLiked);
+                }).collect(Collectors.toList());
     }
 
     public List<FindTodoResponse> findMyTodo(FindTodoListRequest request) {
@@ -130,12 +135,23 @@ public class TodoService {
         LocalDate startDate = request.getTodoYearMonth().atDay(1);
         LocalDate endDate = request.getTodoYearMonth().atEndOfMonth();
 
-        Sort sort = Sort.by(Sort.Direction.ASC, "todoDate");
+        Sort sort = sortTodo();
 
-        return todoRepository.findByWriter_IdAndTodoDateBetween(user.getId(), startDate, endDate, sort)
-                .stream()
-                .map(FindTodoResponse::of)
-                .collect(Collectors.toList());
+        List<Todo> todos = new ArrayList<>(
+                todoRepository.findByWriter_IdAndTodoDateBetween(user.getId(), startDate, endDate, sort));
+
+        return todos.stream()
+                .map(todo-> {
+                    Boolean isLiked = likeFacade.isLiked(todo.getWriter(), todo);
+                    return FindTodoResponse.of(todo,isLiked);
+                }).collect(Collectors.toList());
+    }
+
+
+    private Sort sortTodo(){
+        Sort sortTodoDateAsc = Sort.by(Sort.Direction.ASC, "todoDate");
+        Sort sortCompletedDateByAsc = Sort.by(Sort.Direction.ASC,"completedDateTime");
+        return sortTodoDateAsc.and(sortCompletedDateByAsc);
     }
 
 }

@@ -24,13 +24,16 @@ public class FindTodoResponse {
 
     private Boolean iscompleted;
 
-    public static FindTodoResponse of(Todo todo) {
+    private Boolean isliked;
+
+    public static FindTodoResponse of(Todo todo, boolean isLiked) {
         return FindTodoResponse
                 .builder()
                 .id(todo.getId())
                 .title(todo.getTitle())
                 .todoDate(todo.getTodoDate())
                 .iscompleted(todo.getIsCompleted())
+                .isliked(isLiked)
                 .build();
     }
 }
