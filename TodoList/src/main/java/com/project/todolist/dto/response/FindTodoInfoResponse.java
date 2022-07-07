@@ -34,17 +34,31 @@ public class FindTodoInfoResponse {
     private Integer likeCount;
 
     public static FindTodoInfoResponse of(Todo todo, boolean isLiked) {
-        return FindTodoInfoResponse
-                .builder()
-                .id(todo.getId())
-                .title(todo.getTitle())
-                .todoDate(todo.getTodoDate())
-                .writer(todo.getWriter().getName())
-                .completedDate(todo.getCompletedDate()
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .iscompleted(todo.getIsCompleted())
-                .isliked(isLiked)
-                .likeCount(todo.getLikes().size())
-                .build();
+        assert todo.getCompletedDateTime() != null;
+        if(todo.getIsCompleted()){
+            return FindTodoInfoResponse
+                    .builder()
+                    .id(todo.getId())
+                    .title(todo.getTitle())
+                    .todoDate(todo.getTodoDate())
+                    .writer(todo.getWriter().getName())
+                    .completedDate(todo.getCompletedDateTime()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    .iscompleted(todo.getIsCompleted())
+                    .isliked(isLiked)
+                    .likeCount(todo.getLikes().size())
+                    .build();
+        }else{
+            return FindTodoInfoResponse
+                    .builder()
+                    .id(todo.getId())
+                    .title(todo.getTitle())
+                    .todoDate(todo.getTodoDate())
+                    .writer(todo.getWriter().getName())
+                    .iscompleted(todo.getIsCompleted())
+                    .isliked(isLiked)
+                    .likeCount(todo.getLikes().size())
+                    .build();
+        }
     }
 }
