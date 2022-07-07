@@ -48,7 +48,7 @@ public class UserService {
     public FindUserInfoResponse findUserInfo(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         return FindUserInfoResponse.of(user);
     }
@@ -56,7 +56,7 @@ public class UserService {
     public SearchUserResponse searchUser(String userId) {
 
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         return SearchUserResponse.of(user);
     }

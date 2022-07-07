@@ -2,6 +2,7 @@ package com.project.todolist.security.auth;
 
 
 import com.project.todolist.entity.user.UserRepository;
+import com.project.todolist.exception.TokenInvalidException;
 import com.project.todolist.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         return userRepository.findByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(()-> TokenInvalidException.EXCEPTION);
     }
 
 }
