@@ -47,7 +47,7 @@ public class Todo {
     private LocalDate todoDate;
 
     @Nullable
-    private LocalDateTime completedDate;
+    private LocalDateTime completedDateTime;
 
     private Boolean isCompleted;
 
@@ -60,12 +60,12 @@ public class Todo {
     }
 
     public void setIsCompleted() {
-        this.completedDate = LocalDateTime.now();
+        this.completedDateTime = LocalDateTime.now();
         this.isCompleted = true;
     }
 
     public void setIsNotCompleted() {
-        this.completedDate = null;
+        this.completedDateTime = null;
         this.isCompleted = false;
     }
 }
