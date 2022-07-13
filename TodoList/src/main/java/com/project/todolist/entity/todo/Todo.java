@@ -43,20 +43,22 @@ public class Todo {
 
     private String content;
 
-
     private LocalDate todoDate;
 
     @Nullable
     private LocalDateTime completedDateTime;
 
+    private Boolean isPublic;
+
     private Boolean isCompleted;
 
     @OneToMany(mappedBy = "todo")
-    private List<Like> likes = new ArrayList<>();
+    private List<Like> likes;
 
-    public void modifyTitleAndContent(String title, String content) {
+    public void modifyTitleAndContent(String title, String content, Boolean isPublic) {
         this.title = title;
         this.content = content;
+        this.isPublic = isPublic;
     }
 
     public void setIsCompleted() {

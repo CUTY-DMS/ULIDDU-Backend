@@ -27,17 +27,17 @@ public class UserService {
 
         if (userRepository.findByUserId(request.getUserId()).isPresent())
             throw UserAlreadyExistException.EXCEPTION;
-
-        userRepository.save(User
-                .builder()
-                .userId(request.getUserId())
-                .name(request.getName())
-                .age(request.getAge())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .authority(Authority.valueOf("ROLE_USER"))
-                .build());
+        else {
+            userRepository.save(User
+                    .builder()
+                    .userId(request.getUserId())
+                    .name(request.getName())
+                    .age(request.getAge())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .authority(Authority.valueOf("ROLE_USER"))
+                    .build());
+        }
     }
-
     public FindUserInfoResponse findMyInfo() {
 
         User user = userFacade.currentUser();
