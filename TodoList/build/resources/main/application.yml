@@ -1,8 +1,7 @@
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://todolistdatabase.c9brcozkis8y.ap-northeast-2.rds.amazonaws.com:3306/blog
     username: root
     password: Mydptmzbdpf!1
   jackson:
@@ -15,7 +14,7 @@ spring:
     defer-datasource-initialization: true
   redis:
     port: 6379
-    host: localhost
+    host: todoredis.maevjc.ng.0001.apn2.cache.amazonaws.com
   mvc:
     throw-exception-if-no-handler-found: true
     dispatch-options-request: false
