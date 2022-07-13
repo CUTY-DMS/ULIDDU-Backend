@@ -16,4 +16,6 @@ public interface TodoRepository extends CrudRepository<Todo, Long> {
 
     List<Todo> findByWriter_IdAndTodoDateBetween(Long writer_id, LocalDate startDate, LocalDate endDate, Sort sort);
 
+    List<Todo> findByWriter_IdAndTodoDateBetweenAndIsPublicTrue(Long writer_id, LocalDate startDate, LocalDate endDate, Sort sort);
+
 }

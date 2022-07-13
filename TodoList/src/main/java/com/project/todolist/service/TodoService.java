@@ -44,6 +44,7 @@ public class TodoService {
                 .title(request.getTitle())
                 .todoDate(request.getTodoDate())
                 .content(request.getContent())
+                .isPublic(request.getIsPublic())
                 .isCompleted(false)
                 .build();
 
@@ -82,7 +83,7 @@ public class TodoService {
 
         writerCheck(user, todo);
 
-        todo.modifyTitleAndContent(request.getTitle(), request.getContent());
+        todo.modifyTitleAndContent(request.getTitle(), request.getContent(), request.getIsPublic());
 
         return new ModifyTodoResponse(todoRepository.save(todo).getId());
     }
@@ -119,13 +120,14 @@ public class TodoService {
         Sort sort = sortTodo();
 
         List<Todo> todos = new ArrayList<>(
-                todoRepository.findByWriter_IdAndTodoDateBetween(id, startDate, endDate, sort));
+                todoRepository.findByWriter_IdAndTodoDateBetweenAndIsPublicTrue(id, startDate, endDate, sort));
 
         return todos.stream()
                 .map(todo-> {
                     Boolean isLiked = likeFacade.isLiked(todo.getWriter(), todo);
                     return FindTodoResponse.of(todo,isLiked);
-                }).collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
     }
 
     public List<FindTodoResponse> findMyTodo(FindTodoListRequest request) {
@@ -144,7 +146,8 @@ public class TodoService {
                 .map(todo-> {
                     Boolean isLiked = likeFacade.isLiked(todo.getWriter(), todo);
                     return FindTodoResponse.of(todo,isLiked);
-                }).collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
     }
 
 
