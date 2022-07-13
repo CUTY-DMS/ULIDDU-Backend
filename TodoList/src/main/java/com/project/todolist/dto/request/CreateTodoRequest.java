@@ -11,13 +11,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CreateTodoRequest {
 
-    @NotNull(message = "TODO 제목을 입력하세요.")
+    @NotNull(message = "TODO 제목을 입력해주세요")
     private String title;
 
-    @NotNull(message = "TODO 내용을 입력하세요.")
+    @NotNull(message = "TODO 내용을 입력해주세요")
     private String content;
 
-    @NotNull(message = "날짜를 지정해주세요.")
+    @NotNull(message = "공개여부를 설정해주세요")
+    private Boolean isPublic;
+
+    @NotNull(message = "TODO 날짜를 입력해주세요")
     private LocalDate todoDate;
 
 }
