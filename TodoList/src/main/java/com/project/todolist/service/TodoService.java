@@ -11,8 +11,8 @@ import com.project.todolist.dto.response.FindTodoResponse;
 import com.project.todolist.entity.todo.Todo;
 import com.project.todolist.entity.todo.TodoRepository;
 import com.project.todolist.entity.user.User;
-import com.project.todolist.exception.ForbiddenException;
 import com.project.todolist.exception.TodoNotFoundException;
+import com.project.todolist.exception.UserForbiddenException;
 import com.project.todolist.facade.LikeFacade;
 import com.project.todolist.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ public class TodoService {
                 .title(request.getTitle())
                 .todoDate(request.getTodoDate())
                 .content(request.getContent())
-                .isPublic(request.getIsPublic())
+                .isPublic(request.getIspublic())
                 .isCompleted(false)
                 .build();
 
@@ -71,7 +71,7 @@ public class TodoService {
     }
 
     private void writerCheck(User user, Todo todo) {
-        if (todo.getWriter() != user) throw ForbiddenException.EXCEPTION;
+        if (todo.getWriter() != user) throw UserForbiddenException.EXCEPTION;
     }
 
     public ModifyTodoResponse modifyTodo(Long id, ModifyTodoRequest request) {
