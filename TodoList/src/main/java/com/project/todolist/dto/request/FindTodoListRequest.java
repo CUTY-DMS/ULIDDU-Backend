@@ -10,6 +10,6 @@ import java.time.YearMonth;
 @Getter
 @NoArgsConstructor
 public class FindTodoListRequest {
-    @NotNull(message = "조회할 기간을 설정해주세요")
+    @NotNull(message = "조회할 기간을 입력해주세요")
     YearMonth todoYearMonth;
 }
