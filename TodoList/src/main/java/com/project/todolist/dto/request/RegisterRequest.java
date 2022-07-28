@@ -9,19 +9,19 @@ import javax.validation.constraints.Size;
 @Getter
 @NoArgsConstructor
 public class RegisterRequest {
-    @NotNull(message = "Id empty")
-    @Size(max = 10, message = "not Id.length() <= 10")
+    @NotNull(message = "userId를 입력해주세요")
+    @Size(max = 10, message = "userId는 10자 이하여야합니다")
     private String userId;
 
-    @NotNull(message = "Name empty")
-    @Size(max = 10, message = "not name.length() <= 10")
+    @NotNull(message = "name을 입력해주세요")
+    @Size(max = 10, message = "name은 10자 이하여야합니다")
     private String name;
 
-    @NotNull(message = "Age empty")
+    @NotNull(message = "age를 입력해주세요")
     private Integer age;
 
-    @NotNull(message = "Password empty")
-    @Size(min = 8, max = 15, message = "not 8 <= password.length() <= 15")
+    @NotNull(message = "password를 입력해주세요")
+    @Size(min = 8, max = 15, message = "password는 8자 이상 15자 이하여야합니다.")
     private String password;
 
 }
