@@ -21,6 +21,8 @@ public class FindTodoInfoResponse {
 
     private String title;
 
+    private String content;
+
     private String writer;
 
     private LocalDate todoDate;
@@ -29,22 +31,25 @@ public class FindTodoInfoResponse {
 
     private Boolean iscompleted;
 
+    private Boolean ispublic;
+
     private Boolean isliked;
 
     private Integer likeCount;
 
     public static FindTodoInfoResponse of(Todo todo, boolean isLiked) {
-        assert todo.getCompletedDateTime() != null;
         if(todo.getIsCompleted()){
             return FindTodoInfoResponse
                     .builder()
                     .id(todo.getId())
                     .title(todo.getTitle())
+                    .content(todo.getContent())
                     .todoDate(todo.getTodoDate())
                     .writer(todo.getWriter().getName())
                     .completedDate(todo.getCompletedDateTime()
                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .iscompleted(todo.getIsCompleted())
+                    .ispublic(todo.getIsPublic())
                     .isliked(isLiked)
                     .likeCount(todo.getLikes().size())
                     .build();
@@ -53,9 +58,11 @@ public class FindTodoInfoResponse {
                     .builder()
                     .id(todo.getId())
                     .title(todo.getTitle())
+                    .content(todo.getContent())
                     .todoDate(todo.getTodoDate())
                     .writer(todo.getWriter().getName())
                     .iscompleted(todo.getIsCompleted())
+                    .ispublic(todo.getIsPublic())
                     .isliked(isLiked)
                     .likeCount(todo.getLikes().size())
                     .build();
