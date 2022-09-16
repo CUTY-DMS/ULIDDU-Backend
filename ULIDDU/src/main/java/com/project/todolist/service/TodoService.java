@@ -18,8 +18,10 @@ import com.project.todolist.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +36,7 @@ public class TodoService {
 
     private final LikeFacade likeFacade;
 
+    @Transactional
     public CreateTodoResponse createTodo(CreateTodoRequest request) {
 
         User user = userFacade.currentUser();
@@ -51,6 +54,7 @@ public class TodoService {
         return new CreateTodoResponse(todoRepository.save(todo).getId());
     }
 
+    @Transactional
     public ToggleTodoCompleteResponse completeTodo(Long id) {
 
         User user = userFacade.currentUser();
@@ -71,9 +75,12 @@ public class TodoService {
     }
 
     private void writerCheck(User user, Todo todo) {
-        if (todo.getWriter() != user) throw UserForbiddenException.EXCEPTION;
+        if (todo.getWriter() != user) {
+            throw UserForbiddenException.EXCEPTION;
+        }
     }
 
+    @Transactional
     public ModifyTodoResponse modifyTodo(Long id, ModifyTodoRequest request) {
 
         User user = userFacade.currentUser();
@@ -97,9 +104,10 @@ public class TodoService {
 
         writerCheck(user, todo);
 
-        todoRepository.save(todo);
+        todoRepository.delete(todo);
     }
 
+    @Transactional(readOnly = true)
     public FindTodoInfoResponse findTodoInfo(Long id) {
 
         User user = userFacade.currentUser();
@@ -112,15 +120,16 @@ public class TodoService {
         return FindTodoInfoResponse.of(todo, isLiked);
     }
 
-    public List<FindTodoResponse> findUserTodo(Long id, FindTodoListRequest request) {
+    @Transactional(readOnly = true)
+    public List<FindTodoResponse> findUserTodo(Long userId, YearMonth todoYearMonth) {
 
-        LocalDate startDate = request.getTodoYearMonth().atDay(1);
-        LocalDate endDate = request.getTodoYearMonth().atEndOfMonth();
+        LocalDate startDate = todoYearMonth.atDay(1);
+        LocalDate endDate = todoYearMonth.atEndOfMonth();
 
         Sort sort = sortTodo();
 
         List<Todo> todos = new ArrayList<>(
-                todoRepository.findByWriter_IdAndTodoDateBetweenAndIsPublicTrue(id, startDate, endDate, sort));
+                todoRepository.findByWriter_IdAndTodoDateBetweenAndIsPublicTrue(userId, startDate, endDate, sort));
 
         return todos.stream()
                 .map(todo-> {
@@ -130,12 +139,13 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-    public List<FindTodoResponse> findMyTodo(FindTodoListRequest request) {
+    @Transactional(readOnly = true)
+    public List<FindTodoResponse> findMyTodo(YearMonth todoYearMonth) {
 
         User user = userFacade.currentUser();
 
-        LocalDate startDate = request.getTodoYearMonth().atDay(1);
-        LocalDate endDate = request.getTodoYearMonth().atEndOfMonth();
+        LocalDate startDate = todoYearMonth.atDay(1);
+        LocalDate endDate = todoYearMonth.atEndOfMonth();
 
         Sort sort = sortTodo();
 
@@ -150,8 +160,8 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-
     private Sort sortTodo(){
+
         Sort sortTodoDateAsc = Sort.by(Sort.Direction.ASC, "todoDate");
         Sort sortCompletedDateByAsc = Sort.by(Sort.Direction.ASC,"completedDateTime");
         return sortTodoDateAsc.and(sortCompletedDateByAsc);
