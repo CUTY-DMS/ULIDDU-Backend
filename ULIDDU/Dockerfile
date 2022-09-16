@@ -2,6 +2,6 @@ FROM openjdk:11
 
 EXPOSE 8080
 
-ADD build/libs/TodoList-0.0.10-SNAPSHOT.jar TodoList-0.0.10-SNAPSHOT.jar
+ADD build/libs/ULIDDU-0.0.9-SNAPSHOT.jar ULIDDU-0.0.9-SNAPSHOT.jar
 
-ENTRYPOINT ["java","-jar","TodoList-0.0.10-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","ULIDDU-0.0.9-SNAPSHOT.jar"]
