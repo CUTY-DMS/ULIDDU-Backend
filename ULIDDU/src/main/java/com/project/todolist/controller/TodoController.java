@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController
@@ -36,14 +38,14 @@ public class TodoController {
         return todoService.createTodo(request);
     }
 
-    @PutMapping("/todo/{id}")
-    public ToggleTodoCompleteResponse completeTodo(@PathVariable Long id){
-        return todoService.completeTodo(id);
+    @PutMapping("/todo/{todo-id}")
+    public ToggleTodoCompleteResponse completeTodo(@PathVariable("todo-id") Long todoId){
+        return todoService.completeTodo(todoId);
     }
 
-    @PatchMapping("/todo/{id}")
-    public ModifyTodoResponse modifyTodo(@PathVariable Long id, @RequestBody @Valid ModifyTodoRequest request){
-        return todoService.modifyTodo(id, request);
+    @PatchMapping("/todo/{todo-id}")
+    public ModifyTodoResponse modifyTodo(@PathVariable("todo-id") Long todoId, @RequestBody @Valid ModifyTodoRequest request){
+        return todoService.modifyTodo(todoId, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -53,13 +55,13 @@ public class TodoController {
     }
 
     @GetMapping("/todo/list/user/{id}")
-    public List<FindTodoResponse> findUserTodo(@PathVariable Long id, @RequestBody @Valid FindTodoListRequest request) {
-        return todoService.findUserTodo(id, request);
+    public List<FindTodoResponse> findUserTodo(@PathVariable Long id, @RequestParam YearMonth todoYearMonth) {
+        return todoService.findUserTodo(id, todoYearMonth);
     }
 
     @GetMapping("/todo/list")
-    public List<FindTodoResponse> findMyTodo(@RequestBody @Valid FindTodoListRequest request) {
-        return todoService.findMyTodo(request);
+    public List<FindTodoResponse> findMyTodo(@RequestParam YearMonth todoYearMonth) {
+        return todoService.findMyTodo(todoYearMonth);
     }
 
     @GetMapping("/todo/{id}")
