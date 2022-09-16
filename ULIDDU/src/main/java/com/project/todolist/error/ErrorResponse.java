@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
 
     private String message;
