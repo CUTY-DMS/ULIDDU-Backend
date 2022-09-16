@@ -19,6 +19,7 @@ public class FindUserInfoResponse {
     private int age;
 
     public static FindUserInfoResponse of(User user) {
+
         return FindUserInfoResponse
                 .builder()
                 .name(user.getName())
